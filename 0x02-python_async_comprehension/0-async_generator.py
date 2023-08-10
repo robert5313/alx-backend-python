@@ -4,9 +4,8 @@
 
 import asyncio
 import random
-import Generator
 
-async def async_generator() -> Generator[float, None, None]:
+async def async_generator():
     '''Generate a sequence of random numbers.
     '''
     for i in range(10):
