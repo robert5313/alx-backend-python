@@ -2,12 +2,11 @@
 '''Module 0 task.
 '''
 
-
 import asyncio
 import random
 import Generator
 
-async def async_generator():
+async def async_generator() -> -> Generator[float, None, None]:
     '''Generate a sequence of random numbers.
     '''
     for i in range(10):
