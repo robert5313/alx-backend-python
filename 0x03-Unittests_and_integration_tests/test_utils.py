@@ -69,19 +69,34 @@ class TestMemoize(unittest.TestCase):
             mock.assert_called_once()
 
 class TestGetJson(unittest.TestCase):
-    @mock.patch('utils.requests.get')
+
+    @patch('requests.get')
     def test_get_json(self, mock_get):
-        test_url = "http://example.com"
-        test_payload = {"payload": True}
-        
-        mock_response = mock.Mock()
-        mock_response.json.return_value = test_payload
+        # Set up fixtures
+        test_url1 = "http://example.com"
+        test_payload1 = {"payload": True}
+        test_url2 = "http://holberton.io"
+        test_payload2 = {"payload": False}
+
+        # Set up mock response
+        mock_response = Mock()
+        mock_response.json.return_value = test_payload1
+
+        # Test get_json with test_url1 and test_payload1
         mock_get.return_value = mock_response
-        
-        result = get_json(test_url)
-        
-        mock_get.assert_called_once_with(test_url)
-        self.assertEqual(result, test_payload)
+        result1 = get_json(test_url1)
+        self.assertEqual(result1, test_payload1)
+        mock_get.assert_called_once_with(test_url1)
+
+        # Set up mock response
+        mock_response = Mock()
+        mock_response.json.return_value = test_payload2
+
+        # Test get_json with test_url2 and test_payload2
+        mock_get.return_value = mock_response
+        result2 = get_json(test_url2)
+        self.assertEqual(result2, test_payload2)
+        mock_get.assert_called_once_with(test_url2)
 
 class TestGithubOrgClient(unittest.TestCase):
 
