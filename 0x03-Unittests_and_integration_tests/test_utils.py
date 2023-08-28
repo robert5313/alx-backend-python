@@ -4,6 +4,8 @@
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map
+from unittest import mock
+from utils import get_json
 
 class TestAccessNestedMap(unittest.TestCase):
 
@@ -65,3 +67,21 @@ class TestMemoize(unittest.TestCase):
             test_class.a_property()
             test_class.a_property()
             mock.assert_called_once()
+
+class TestGetJson(unittest.TestCase):
+    @mock.patch('utils.requests.get')
+    def test_get_json(self, mock_get):
+        test_url = "http://example.com"
+        test_payload = {"payload": True}
+        
+        mock_response = mock.Mock()
+        mock_response.json.return_value = test_payload
+        mock_get.return_value = mock_response
+        
+        result = get_json(test_url)
+        
+        mock_get.assert_called_once_with(test_url)
+        self.assertEqual(result, test_payload)
+        
+if __name__ == "__main__":
+    unittest.main()
